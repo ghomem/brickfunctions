@@ -41,7 +41,7 @@ def get_error ( r, p, peq, b, alpha ):
         if cur_err > max_err:
             max_err = cur_err
 
-    return np.sqrt(total) / length, max_err
+    return np.sqrt(total) / length, np.sqrt(max_err)
 
 # initial parameters
 par0 = [ 2300, 2000, 0.5 ]
