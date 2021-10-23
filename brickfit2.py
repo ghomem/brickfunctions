@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 from matplotlib import pyplot
 from scipy.optimize import curve_fit
 
@@ -10,6 +11,9 @@ MAX_DELAY = 9
 # normalized R vs Price on an yearly series
 R_VALUES = [ 0.45,    0.46,    0.53,    0.72,    1.30,    1.99,    2.56,    2.17,    1.76,    1.68,    1.46,    1.35 ]
 P_VALUES = [ 2250, 1923.08, 1711.81, 1526.42, 1706.32, 1757.71, 2025.12, 2287.55, 2887.63, 3305.77, 3474.04, 3295.88 ]
+
+BASE_YEAR = 2010
+NR_YEARS  = 12
 
 ## /DATA SECTION ##
 
@@ -70,13 +74,18 @@ p_list.pop()
 
 # produce lists with interpolated values
 
+t_values = []
 for j in range(0, length-1):
     k = 2*j + 1
     r_list[k] = 0.5 * (r_list[k-1] + r_list[k+1] )
     p_list[k] = 0.5 * (p_list[k-1] + p_list[k+1] )
+    t_value   = BASE_YEAR + 0.5 * j
+    t_values.append(t_value)
 
 # try to fit with different delays
 # note: the more delay, the more data we lose for the fit, so we need a balance if the series is short
+
+print(t_values)
 
 for d in range (0, MAX_DELAY+1):
     # call function that returns the delayed lists
@@ -92,3 +101,5 @@ for d in range (0, MAX_DELAY+1):
     except:
         print('could not fit for delay', d, '\n')
 
+
+# TODO: plots the known points and the candidate curves
