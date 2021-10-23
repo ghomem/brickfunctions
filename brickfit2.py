@@ -31,17 +31,19 @@ def get_delayed_lists(r, p, d):
 def get_error ( r, p, peq, b, alpha ):
 
     total  = 0
-    max_err    = 0
+    max_dev = 0
     length = len(p)
 
+    # we use the squared deviation so that the error can be summed and averaged
     for j in range(0, length):
         estimation = objective(r[j], peq, b, alpha)
-        cur_err =  ( p[j] - estimation )**2
-        total = total + cur_err
-        if cur_err > max_err:
-            max_err = cur_err
+        cur_dev =  ( p[j] - estimation )**2
+        total = total + cur_dev
+        if cur_dev > max_dev:
+            max_dev = cur_dev
 
-    return np.sqrt(total) / length, np.sqrt(max_err)
+    # we need to apply the square root to be back to proper units
+    return np.sqrt(total) / length, np.sqrt(max_dev)
 
 # initial parameters
 par0 = [ 2300, 2000, 0.5 ]
