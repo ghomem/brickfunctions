@@ -104,14 +104,18 @@ for j in range(0, len(r_list)):
     t_value  = BASE_YEAR + 0.5 * j
     t_values.append(t_value)
 
+
+# create plot and line with known values
+plt.xkcd() # <3 <3 <3
+plt.title( 'Lisboa')
+plt.ylabel('EUR')
+
+plt.plot(t_values, p_list, label='pm2')
+
 for d in range (MIN_DELAY, MAX_DELAY+1):
     
     # call function that returns the delayed lists
     r_delayed, p_delayed = get_delayed_lists(r_list.copy(), p_list.copy(), d)
-
-    plt.xkcd() # <3 <3 <3
-    plt.title( 'Lisboa')
-    plt.ylabel('EUR')
 
     try:
         popt, pcov = curve_fit(objective, r_delayed, p_delayed, p0 = par0)
@@ -130,8 +134,6 @@ for d in range (MIN_DELAY, MAX_DELAY+1):
         print('could not fit for delay', d, '\n')
         print(ex)
 
-plt.plot(t_values, p_list, label='pm2')
 
-plt.legend(loc='upper right')
+plt.legend(loc='upper left')
 plt.show()
-# TODO: plots the known points and the candidate curves
