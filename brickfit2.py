@@ -16,6 +16,9 @@ P_VALUES = [ 2250, 1923.08, 1711.81, 1526.42, 1706.32, 1757.71, 2025.12, 2287.55
 BASE_YEAR = 2010
 NR_YEARS  = 12
 
+# initial parameters
+PAR0 = [ 2300, 2000, 0.5 ]
+
 ## /DATA SECTION ##
 
 # the first argument is the data vector
@@ -61,9 +64,6 @@ def pad_data ( data, target_size, element, left = True ):
             data.append(element)
 
     return data
-
-# initial parameters
-par0 = [ 2300, 2000, 0.5 ]
 
 # now let's try some interpolation to gain delay space and vary the delay
 
@@ -118,7 +118,7 @@ for d in range (MIN_DELAY, MAX_DELAY+1):
     r_delayed, p_delayed = get_delayed_lists(r_list.copy(), p_list.copy(), d)
 
     try:
-        popt, pcov = curve_fit(objective, r_delayed, p_delayed, p0 = par0)
+        popt, pcov = curve_fit(objective, r_delayed, p_delayed, p0 = PAR0)
         peq, b, alpha = popt
         p_estimation, error, max_error = evaluate ( r_delayed, p_delayed, peq, b, alpha)
 
