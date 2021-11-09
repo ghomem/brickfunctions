@@ -4,20 +4,27 @@ from matplotlib import pyplot
 from scipy.optimize import curve_fit
 
 ## DATA SECTION ##
+MAXFEV = 2000
 
 # maximum delay in semesters
-MIN_DELAY = 6
-MAX_DELAY = 8
+MIN_DELAY = 5
+MAX_DELAY = 6
 
 # normalized R vs Price on an yearly series
-R_VALUES = [ 0.45,    0.46,    0.53,    0.72,    1.30,    1.99,    2.56,    2.17,    1.76,    1.68,    1.46,    1.35 ]
-P_VALUES = [ 2250, 1923.08, 1711.81, 1526.42, 1706.32, 1757.71, 2025.12, 2287.55, 2887.63, 3305.77, 3474.04, 3295.88 ]
+R_VALUES_1 = [ 0.45,    0.46,    0.53,    0.72,    1.30,    1.99,    2.56,    2.17,    1.76,    1.68,    1.46,    1.35 ] # Casa S
+P_VALUES_1 = [ 2250, 1923.08, 1711.81, 1526.42, 1706.32, 1757.71, 2025.12, 2287.55, 2887.63, 3305.77, 3474.04, 3295.88 ]
+
+R_VALUES_2 = [ 1.37,       1.56,    1.89,    1.66,    1.37,    1.78,    2.14, ] # Id a []
+P_VALUES_2 = [ 1757.71, 2025.12, 2287.55, 2887.63, 3305.77, 3474.04, 3295.88  ]
+
+R_VALUES = R_VALUES_1
+P_VALUES = P_VALUES_1
 
 BASE_YEAR = 2010
 NR_YEARS  = 12
 
 # initial parameters
-PAR0 = [ 2300, 2000, 0.5 ]
+PAR0 = [ 2300, 3000, 0.5 ]
 
 ## /DATA SECTION ##
 
@@ -118,7 +125,7 @@ for d in range (MIN_DELAY, MAX_DELAY+1):
     r_delayed, p_delayed = get_delayed_lists(r_list.copy(), p_list.copy(), d)
 
     try:
-        popt, pcov = curve_fit(objective, r_delayed, p_delayed, p0 = PAR0)
+        popt, pcov = curve_fit(objective, r_delayed, p_delayed, p0 = PAR0, maxfev = MAXFEV)
         peq, b, alpha = popt
         p_estimation, error, max_error = evaluate ( r_delayed, p_delayed, peq, b, alpha)
 
